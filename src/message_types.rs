@@ -2,6 +2,7 @@ use std::{collections::HashMap, fmt};
 
 use lazy_static::lazy_static;
 
+#[derive(Clone)]
 pub enum IsoMessageType {
     Authorization,
     AuthorizationResponse,
@@ -40,6 +41,20 @@ impl IsoMessageType {
             Self::TokenNotificationResponse => "0630",
             Self::TokenManagement => "0800",
             Self::TokenManagementResponse => "0810",
+        }
+    }
+
+    pub fn get_response_type(&self) -> Self {
+        match self {
+            Self::Authorization => Self::AuthorizationResponse,
+            Self::AuthorizationAdvice => Self::AuthorizationAdviceResponse,
+            Self::Financial => Self::FinancialResponse,
+            Self::FinancialAdvice => Self::FinancialAdviceResponse,
+            Self::Reversal => Self::ReversalResponse,
+            Self::NetworkManagement => Self::NetworkManagementResponse,
+            Self::TokenNotification => Self::TokenNotificationResponse,
+            Self::TokenManagement => Self::TokenManagementResponse,
+            _ => self.clone(),
         }
     }
 }

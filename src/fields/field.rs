@@ -23,6 +23,22 @@ impl Field {
         self.is_bitmap
     }
 
+    pub fn value_to_buffer(&self, value: &str) -> Vec<u8> {
+        let mut value_buf = value.as_bytes().to_vec();
+        if let Some(leading_digit) = self.len_type.get_leading_digits() {
+            let mut buffer = value_buf.len().to_be_bytes().to_vec();
+            buffer.resize(leading_digit, 0);
+
+            buffer.append(value_buf.as_mut());
+
+            buffer
+        } else {
+            value_buf.resize(self.max_len, 0);
+
+            value_buf
+        }
+    }
+
     pub fn get_value_from_buffer(&self, buffer: &[u8]) -> Result<(String, usize), IsoMessageError> {
         if let Some(leading_digits) = self.len_type.get_leading_digits() {
             let var_len = String::from_utf8(buffer[..leading_digits].to_vec())
