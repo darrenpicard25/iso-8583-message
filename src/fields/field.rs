@@ -26,8 +26,18 @@ impl Field {
     pub fn value_to_buffer(&self, value: &str) -> Vec<u8> {
         let mut value_buf = value.as_bytes().to_vec();
         if let Some(leading_digit) = self.len_type.get_leading_digits() {
-            let mut buffer = value_buf.len().to_be_bytes().to_vec();
-            buffer.resize(leading_digit, 0);
+            let mut buffer = vec![0x30; leading_digit];
+            let value_buf_len = value_buf.len().to_string();
+            let value_buf_len = value_buf_len.as_bytes();
+
+            buffer.extend_from_slice(value_buf_len);
+
+            let position = if value_buf_len.len() > leading_digit {
+                value_buf_len.len() - leading_digit
+            } else {
+                leading_digit
+            };
+            let mut buffer = buffer[buffer.len() - position..].to_vec();
 
             buffer.append(value_buf.as_mut());
 

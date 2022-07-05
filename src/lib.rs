@@ -6,7 +6,7 @@ mod base_format;
 mod fields;
 mod message_types;
 
-pub type IsoJsonMessage = HashMap<String, String>;
+pub type IsoJsonMessage = HashMap<&'static str, String>;
 
 #[derive(Debug)]
 pub enum IsoMessageError {
@@ -38,26 +38,24 @@ impl IsoMessage {
         let mut total_bytes = 0;
         let mut bitmaps = Vec::new();
 
-        let get_bitmap = move |map_name: &str| -> Result<u64, IsoMessageError> {
+        let get_bitmap = move |map_name: &str, cursor: usize| -> Result<u64, IsoMessageError> {
             Ok(u64::from_be_bytes(
-                buffer[total_bytes..total_bytes + 8]
-                    .try_into()
-                    .map_err(|_| {
-                        IsoMessageError::InvalidInput(format!("Unable to get {map_name} bitmap"))
-                    })?,
+                buffer[cursor..cursor + 8].try_into().map_err(|_| {
+                    IsoMessageError::InvalidInput(format!("Unable to get {map_name} bitmap"))
+                })?,
             ))
         };
-        let primary_bitmap = get_bitmap("primary")?;
+        let primary_bitmap = get_bitmap("primary", total_bytes)?;
         bitmaps.push(primary_bitmap);
         total_bytes += 8;
 
         if Self::is_field_in_bitmap(primary_bitmap, 64 - 1) {
-            let secondary_bitmap = get_bitmap("secondary")?;
+            let secondary_bitmap = get_bitmap("secondary", total_bytes)?;
             bitmaps.push(secondary_bitmap);
             total_bytes += 8;
 
             if Self::is_field_in_bitmap(secondary_bitmap, 64 - 1) {
-                let tertiary_bitmap = get_bitmap("tertiary")?;
+                let tertiary_bitmap = get_bitmap("tertiary", total_bytes)?;
                 bitmaps.push(tertiary_bitmap);
                 total_bytes += 8;
             }
@@ -73,17 +71,20 @@ impl IsoMessage {
     fn parse_buffer(buffer: &Vec<u8>) -> Result<IsoJsonMessage, IsoMessageError> {
         let mut cursor: usize = 0;
         let mut message: IsoJsonMessage = HashMap::new();
+        cursor += 2;
 
         let (mti, parsed_bytes) = BASE_ISO_FORMAT
             .get("0")
             .ok_or(IsoMessageError::InvalidInput(
                 "Unable to find field 0 in format".to_owned(),
             ))?
-            .get_value_from_buffer(&buffer)?;
+            .get_value_from_buffer(&buffer[cursor..])?;
+
         cursor += parsed_bytes;
-        message.insert("0".to_owned(), mti);
+        message.insert("0", mti);
 
         let (bitmaps, parsed_bytes) = IsoMessage::get_bitmaps_from_buffer(&buffer[cursor..])?;
+
         cursor += parsed_bytes;
 
         for (map_number, bitmap) in bitmaps.iter().enumerate() {
@@ -91,21 +92,21 @@ impl IsoMessage {
                 let extra_add = (map_number * 64) as u8;
                 if Self::is_field_in_bitmap(*bitmap, 64 - field_index) {
                     let key = (field_index + extra_add).to_string();
-                    let field =
-                        BASE_ISO_FORMAT
-                            .get(key.as_str())
-                            .ok_or(IsoMessageError::InvalidInput(format!(
-                                "Unable to find field {key} in format"
-                            )))?;
+                    let (field_key, field) = BASE_ISO_FORMAT.get_key_value(key.as_str()).ok_or(
+                        IsoMessageError::InvalidInput(format!(
+                            "Unable to find field {key} in format"
+                        )),
+                    )?;
 
-                    if field.is_bitmap() || message.contains_key(&key) {
+                    if field.is_bitmap() || message.contains_key(key.as_str()) {
                         continue;
                     }
 
                     let (field_value, bytes_parsed) =
                         field.get_value_from_buffer(&buffer[cursor..])?;
+
                     cursor += bytes_parsed;
-                    message.insert(key.to_owned(), field_value);
+                    message.insert(field_key, field_value);
                 }
             }
         }
@@ -138,8 +139,8 @@ impl IsoMessage {
         }
     }
 
-    pub fn set_field(&mut self, index: &str, value: &str) {
-        self.message.insert(index.to_owned(), value.to_owned());
+    pub fn set_field(&mut self, index: &'static str, value: &str) {
+        self.message.insert(index, value.to_owned());
     }
 
     fn get_bit_maps(&self) -> Vec<u64> {
@@ -149,13 +150,20 @@ impl IsoMessage {
             let bitmap_ref = &mut bitmaps;
 
             self.message.iter().for_each(move |(key, _)| {
+                if key == &"0" {
+                    return;
+                }
                 let key = key.parse::<u8>().unwrap();
 
-                let bit_pos = (key / 64) as usize;
-                let bit_map_index = key % 64;
+                let bit_map_index = if key % 64 == 0 { 64 } else { key % 64 };
+                let bit_pos = if key % 64 == 0 {
+                    (key / 64) as usize - 1
+                } else {
+                    (key / 64) as usize
+                };
 
                 if let Some(map) = bitmap_ref.get_mut(bit_pos) {
-                    *map = *map | (1 << 64 - bit_map_index)
+                    *map = *map | (1 << 64 - bit_map_index);
                 }
             });
         }
@@ -177,32 +185,44 @@ impl IsoMessage {
 
     pub fn get_message_buffer(&self) -> Result<Vec<u8>, IsoMessageError> {
         let bitmaps = self.get_bit_maps();
+
         let mut buffer: Vec<u8> = Vec::new();
 
         let mti = self.get_mti();
 
         buffer.extend_from_slice(mti.as_bytes());
 
-        bitmaps
-            .into_iter()
-            .for_each(|map| buffer.extend_from_slice(&map.to_be_bytes()));
-
-        for (key, value) in self.message.iter() {
-            if key == "2" {
-                continue;
-            }
-
-            let field = BASE_ISO_FORMAT.get(key.as_str()).ok_or_else(|| {
-                return IsoMessageError::InvalidInput(format!(
-                    "Unable to get format of key: {}. When converting to response message",
-                    key
-                ));
-            })?;
-
-            buffer.append(field.value_to_buffer(value).as_mut())
+        for map in bitmaps.iter() {
+            buffer.extend_from_slice(&map.to_be_bytes());
         }
 
-        Ok(buffer)
+        for (map_index, map) in bitmaps.into_iter().enumerate() {
+            for bit_index in 2..=64usize {
+                if map & (1 << 64 - bit_index) == 0 {
+                    continue;
+                }
+                let key = (bit_index + 64usize * map_index).to_string();
+                let value = self.message.get(key.as_str()).ok_or_else(|| {
+                    return IsoMessageError::InvalidInput(format!(
+                        "Unable to get value from message for key: {key}. When converting to response message"
+                    ));
+                })?;
+                let field = BASE_ISO_FORMAT.get(key.as_str()).ok_or_else(|| {
+                    return IsoMessageError::InvalidInput(format!(
+                        "Unable to get format of key: {}. When converting to response message",
+                        key
+                    ));
+                })?;
+
+                buffer.append(field.value_to_buffer(value).as_mut());
+            }
+        }
+
+        let buffer_length = buffer.len().to_be_bytes();
+        let mut buffer_length = buffer_length[(buffer_length.len() - 2)..].to_vec();
+        buffer_length.append(&mut buffer);
+
+        Ok(buffer_length)
     }
 }
 
@@ -215,29 +235,44 @@ mod tests {
         #[test]
         fn should_get_1_bit_map() {
             let message = IsoJsonMessage::from([
-                ("2".to_owned(), "".to_owned()),
-                ("10".to_owned(), "".to_owned()),
-                ("15".to_owned(), "".to_owned()),
-                ("65".to_owned(), "".to_owned()),
+                ("1", "".to_owned()),
+                ("64", "".to_owned()),
+                ("65", "".to_owned()),
+                ("128", "".to_owned()),
+                ("129", "".to_owned()),
+                ("192", "".to_owned()),
             ]);
 
             let iso_message = IsoMessage::from_json_message(message);
 
             let bitmaps = iso_message.get_bit_maps();
 
-            bitmaps.iter().for_each(|map| {
-                println!("{:064b}", map);
-            });
-
-            assert_eq!(bitmaps, [0_u64])
+            assert_eq!(
+                bitmaps,
+                [
+                    9223372036854775809,
+                    9223372036854775809,
+                    9223372036854775809
+                ]
+            )
         }
-    }
-    #[test]
-    fn bit_shifting() {
-        let mut value: u64 = 1;
 
-        value = value | (1 << 3);
+        #[test]
+        fn should_assemble_correct_bit_map() {
+            let message = IsoJsonMessage::from([
+                ("0", "".to_owned()),
+                ("2", "".to_owned()),
+                ("3", "".to_owned()),
+                ("4", "".to_owned()),
+                ("5", "".to_owned()),
+                ("64", "".to_owned()),
+            ]);
 
-        assert_eq!(value, 9);
+            let iso_message = IsoMessage::from_json_message(message);
+
+            let bitmaps = iso_message.get_bit_maps();
+
+            assert_eq!(bitmaps, [1])
+        }
     }
 }
