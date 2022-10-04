@@ -9,8 +9,7 @@
     "content_type": "b",
     "label": "Bitmap",
     "len_type": "fixed",
-    "max_len": 8,
-    "is_bitmap": true
+    "max_len": 8
   },
   "2": {
     "content_type": "n",
@@ -182,13 +181,13 @@
     "max_len": 9
   },
   "30": {
-    "content_type": "x+n",
+    "content_type": "an",
     "label": "Amount, transaction processing fee",
     "len_type": "fixed",
     "max_len": 9
   },
   "31": {
-    "content_type": "x+n",
+    "content_type": "an",
     "label": "Amount, settlement processing fee",
     "len_type": "fixed",
     "max_len": 9
@@ -197,40 +196,40 @@
     "content_type": "n",
     "label": "Acquiring institution identification code",
     "len_type": "llvar",
-    "max_len": 11
+    "max_len": 6
   },
   "33": {
     "content_type": "n",
     "label": "Forwarding institution identification code",
     "len_type": "llvar",
-    "max_len": 11
+    "max_len": 6
   },
   "34": {
-    "content_type": "ns",
+    "content_type": "ans",
     "label": "Primary account number, extended",
     "len_type": "llvar",
     "max_len": 28
   },
   "35": {
-    "content_type": "z",
+    "content_type": "ans",
     "label": "Track 2 data",
     "len_type": "llvar",
     "max_len": 37
   },
   "36": {
-    "content_type": "n",
+    "content_type": "ans",
     "label": "Track 3 data",
     "len_type": "lllvar",
     "max_len": 104
   },
   "37": {
-    "content_type": "anp",
+    "content_type": "ans",
     "label": "Retrieval reference number",
     "len_type": "fixed",
     "max_len": 12
   },
   "38": {
-    "content_type": "anp",
+    "content_type": "ans",
     "label": "Authorization identification response",
     "len_type": "fixed",
     "max_len": 6
@@ -254,7 +253,7 @@
     "max_len": 8
   },
   "42": {
-    "content_type": "z",
+    "content_type": "ans",
     "label": "Card acceptor identification code",
     "len_type": "fixed",
     "max_len": 15
@@ -302,7 +301,7 @@
     "max_len": 3
   },
   "50": {
-    "content_type": "an",
+    "content_type": "n",
     "label": "Currency code, settlement",
     "len_type": "fixed",
     "max_len": 3
@@ -320,28 +319,28 @@
     "max_len": 16
   },
   "53": {
-    "content_type": "b",
+    "content_type": "n",
     "label": "Security related control information",
     "len_type": "fixed",
-    "max_len": 96
+    "max_len": 16
   },
   "54": {
     "content_type": "an",
     "label": "Additional amounts",
     "len_type": "lllvar",
-    "max_len": 120
+    "max_len": 240
   },
   "55": {
-    "content_type": "ans",
-    "label": "Reserved ISO",
+    "content_type": "b",
+    "label": "Integrated Circuit Card (ICC) System-Related Data",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 255
   },
   "56": {
     "content_type": "ans",
-    "label": "Message Reason Code",
+    "label": "Payment Account Data",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 37
   },
   "57": {
     "content_type": "ans",
@@ -350,40 +349,40 @@
     "max_len": 999
   },
   "58": {
-    "content_type": "n",
+    "content_type": "ans",
     "label": "Reserved national",
-    "len_type": "llvar",
-    "max_len": 11
+    "len_type": "lllvar",
+    "max_len": 999
   },
   "59": {
     "content_type": "ans",
     "label": "Reserved national",
     "len_type": "lllvar",
-    "max_len": 255
+    "max_len": 999
   },
   "60": {
     "content_type": "ans",
-    "label": "Reserved national",
+    "label": "Advice Reason Code",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 60
   },
   "61": {
     "content_type": "ans",
-    "label": "Reserved private",
+    "label": "Point-of-Service data",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 26
   },
   "62": {
     "content_type": "ans",
-    "label": "Reserved private",
+    "label": "Intermediate Network Facility (INF) Data",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 100
   },
   "63": {
-    "content_type": "ans",
-    "label": "Reserved private",
+    "content_type": "an",
+    "label": "Network Data (note 4)",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 50
   },
   "64": {
     "content_type": "b",
@@ -395,8 +394,7 @@
     "content_type": "b",
     "label": "Bitmap, extended",
     "len_type": "fixed",
-    "max_len": 1,
-    "is_bitmap": true
+    "max_len": 1
   },
   "66": {
     "content_type": "n",
@@ -561,7 +559,7 @@
     "max_len": 2
   },
   "93": {
-    "content_type": "an",
+    "content_type": "n",
     "label": "Response indicator",
     "len_type": "fixed",
     "max_len": 5
@@ -573,7 +571,7 @@
     "max_len": 7
   },
   "95": {
-    "content_type": "an",
+    "content_type": "n",
     "label": "Replacement amounts",
     "len_type": "fixed",
     "max_len": 42
@@ -582,7 +580,7 @@
     "content_type": "b",
     "label": "Message security code",
     "len_type": "fixed",
-    "max_len": 8
+    "max_len": 16
   },
   "97": {
     "content_type": "x+n",
@@ -678,7 +676,7 @@
     "content_type": "ans",
     "label": "Reserved for national use",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 779
   },
   "113": {
     "content_type": "ans",
@@ -723,8 +721,8 @@
     "max_len": 999
   },
   "120": {
-    "content_type": "n",
-    "label": "Reserved for private use",
+    "content_type": "ans",
+    "label": "Record data",
     "len_type": "lllvar",
     "max_len": 999
   },
@@ -741,488 +739,34 @@
     "max_len": 999
   },
   "123": {
-    "content_type": "an",
-    "label": "Reserved for private use",
+    "content_type": "ans",
+    "label": "Receipt Free Text",
     "len_type": "lllvar",
-    "max_len": 999,
-    "min_len": 15
+    "max_len": 512
   },
   "124": {
     "content_type": "ans",
     "label": "Reserved for private use",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 199
   },
   "125": {
-    "content_type": "ans",
+    "content_type": "b",
     "label": "Reserved for private use",
-    "len_type": "lllvar",
-    "max_len": 999
+    "len_type": "fixed",
+    "max_len": 8
   },
   "126": {
     "content_type": "ans",
     "label": "Reserved for private use",
     "len_type": "lllvar",
-    "max_len": 999
+    "max_len": 100
   },
   "127": {
     "content_type": "ans",
     "label": "Reserved for private use",
-    "len_type": "llllllvar",
-    "max_len": 999999
-  },
-  "127.1": {
-    "content_type": "b",
-    "label": "Bitmap",
-    "len_type": "fixed",
-    "max_len": 16,
-    "is_bitmap": true
-  },
-  "127.2": {
-    "content_type": "n",
-    "label": "Switch Key",
-    "len_type": "llvar",
-    "max_len": 32,
-    "min_len": 12
-  },
-  "127.3": {
-    "content_type": "ans",
-    "label": "Routing Information",
-    "len_type": "fixed",
-    "max_len": 48
-  },
-  "127.4": {
-    "content_type": "ans",
-    "label": "POS Data",
-    "len_type": "fixed",
-    "max_len": 22
-  },
-  "127.5": {
-    "content_type": "ans",
-    "label": "Service Station Data",
-    "len_type": "fixed",
-    "max_len": 73
-  },
-  "127.6": {
-    "content_type": "n",
-    "label": "Authorization Profile",
-    "len_type": "fixed",
-    "max_len": 2
-  },
-  "127.7": {
-    "content_type": "ans",
-    "label": "Check Data",
-    "len_type": "llvar",
-    "max_len": 50,
-    "min_len": 10
-  },
-  "127.8": {
-    "content_type": "ans",
-    "label": "Retention Data",
     "len_type": "lllvar",
-    "max_len": 999,
-    "min_len": 100
-  },
-  "127.9": {
-    "content_type": "ans",
-    "label": "Additional Node Data",
-    "len_type": "lllvar",
-    "max_len": 255,
-    "min_len": 100
-  },
-  "127.10": {
-    "content_type": "n",
-    "label": "CVV2",
-    "len_type": "fixed",
-    "max_len": 3
-  },
-  "127.11": {
-    "content_type": "ans",
-    "label": "Original Key",
-    "len_type": "llvar",
-    "max_len": 32,
-    "min_len": 10
-  },
-  "127.12": {
-    "content_type": "ans",
-    "label": "Terminal Owner",
-    "len_type": "llvar",
-    "max_len": 25,
-    "min_len": 10
-  },
-  "127.13": {
-    "content_type": "ans",
-    "label": "POS Geographic Data",
-    "len_type": "fixed",
-    "max_len": 17
-  },
-  "127.14": {
-    "content_type": "ans",
-    "label": "Sponsor Bank",
-    "len_type": "fixed",
-    "max_len": 8
-  },
-  "127.15": {
-    "content_type": "ans",
-    "label": "Address Verification Data",
-    "len_type": "llvar",
-    "max_len": 29,
-    "min_len": 10
-  },
-  "127.16": {
-    "content_type": "ans",
-    "label": "Address Verification Result",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.17": {
-    "content_type": "ans",
-    "label": "Cardholder Information",
-    "len_type": "llvar",
-    "max_len": 50,
-    "min_len": 10
-  },
-  "127.18": {
-    "content_type": "ans",
-    "label": "Validation data",
-    "len_type": "llvar",
-    "max_len": 50,
-    "min_len": 10
-  },
-  "127.19": {
-    "content_type": "ans",
-    "label": "Bank details",
-    "len_type": "fixed",
-    "max_len": 31
-  },
-  "127.20": {
-    "content_type": "n",
-    "label": "Originator / Authorizer date settlement",
-    "len_type": "fixed",
-    "max_len": 8
-  },
-  "127.21": {
-    "content_type": "ans",
-    "label": "Record identification",
-    "len_type": "llvar",
-    "max_len": 12,
-    "min_len": 10
-  },
-  "127.22": {
-    "content_type": "ans",
-    "label": "Structured Data",
-    "len_type": "lllllvar",
-    "max_len": 99999,
-    "min_len": 10000
-  },
-  "127.23": {
-    "content_type": "ans",
-    "label": "Payee name and address",
-    "len_type": "fixed",
-    "max_len": 253
-  },
-  "127.24": {
-    "content_type": "ans",
-    "label": "Payer account",
-    "len_type": "llvar",
-    "max_len": 28,
-    "min_len": 10
-  },
-  "127.25": {
-    "content_type": "ans",
-    "label": "Integrated circuit card (ICC) Data",
-    "len_type": "llllvar",
-    "max_len": 8000,
-    "min_len": 1000
-  },
-  "127.25.1": {
-    "content_type": "b",
-    "label": "Bitmap",
-    "len_type": "fixed",
-    "max_len": 16
-  },
-  "127.25.2": {
-    "content_type": "n",
-    "label": "Amount Authorized",
-    "len_type": "fixed",
-    "max_len": 12
-  },
-  "127.25.3": {
-    "content_type": "n",
-    "label": "Amount Other",
-    "len_type": "fixed",
-    "max_len": 12
-  },
-  "127.25.4": {
-    "content_type": "ans",
-    "label": "Application Identifier",
-    "len_type": "llvar",
-    "max_len": 32,
-    "min_len": 10
-  },
-  "127.25.5": {
-    "content_type": "ans",
-    "label": "Application Interchange Profile",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.25.6": {
-    "content_type": "ans",
-    "label": "Application Transaction Counter",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.25.7": {
-    "content_type": "ans",
-    "label": "Application Interchange Profile",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.25.8": {
-    "content_type": "an",
-    "label": "Authorization Response Code",
-    "len_type": "fixed",
-    "max_len": 2
-  },
-  "127.25.9": {
-    "content_type": "n",
-    "label": "Card Authentication Reliability Indicator",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.25.10": {
-    "content_type": "ans",
-    "label": "Card Authentication Result Code",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.25.11": {
-    "content_type": "n",
-    "label": "Chip Condition Code",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.25.12": {
-    "content_type": "ans",
-    "label": "Cryptogram",
-    "len_type": "fixed",
-    "max_len": 16
-  },
-  "127.25.13": {
-    "content_type": "ans",
-    "label": "Cryptogram Information Data",
-    "len_type": "fixed",
-    "max_len": 2
-  },
-  "127.25.14": {
-    "content_type": "ans",
-    "label": "Cvm List",
-    "len_type": "lllvar",
-    "max_len": 504
-  },
-  "127.25.15": {
-    "content_type": "ans",
-    "label": "Cvm Results",
-    "len_type": "fixed",
-    "max_len": 6
-  },
-  "127.25.16": {
-    "content_type": "an",
-    "label": "Interface Device Name",
-    "len_type": "fixed",
-    "max_len": 8
-  },
-  "127.25.17": {
-    "content_type": "ans",
-    "label": "Issuer Action Code",
-    "len_type": "fixed",
-    "max_len": 11
-  },
-  "127.25.18": {
-    "content_type": "ans",
-    "label": "Issuer Application Data",
-    "len_type": "llvar",
-    "max_len": 64
-  },
-  "127.25.19": {
-    "content_type": "ans",
-    "label": "Issuer Script Results",
-    "len_type": "lllvar",
-    "max_len": 507
-  },
-  "127.25.20": {
-    "content_type": "ans",
-    "label": "Terminal Application Version Number",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.25.21": {
-    "content_type": "ans",
-    "label": "Terminal Capabilities",
-    "len_type": "fixed",
-    "max_len": 6
-  },
-  "127.25.22": {
-    "content_type": "n",
-    "label": "Terminal Country Code",
-    "len_type": "fixed",
-    "max_len": 3
-  },
-  "127.25.23": {
-    "content_type": "n",
-    "label": "Terminal Type",
-    "len_type": "fixed",
-    "max_len": 2
-  },
-  "127.25.24": {
-    "content_type": "ans",
-    "label": "Terminal Verification Results",
-    "len_type": "fixed",
-    "max_len": 10
-  },
-  "127.25.25": {
-    "content_type": "ans",
-    "label": "Transaction Category Code",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.25.26": {
-    "content_type": "n",
-    "label": "Transaction Currency Code",
-    "len_type": "fixed",
-    "max_len": 3
-  },
-  "127.25.27": {
-    "content_type": "n",
-    "label": "Transaction Date",
-    "len_type": "fixed",
-    "max_len": 6
-  },
-  "127.25.28": {
-    "content_type": "n",
-    "label": "Transaction Sequence Counter",
-    "len_type": "lvar",
-    "max_len": 8
-  },
-  "127.25.29": {
-    "content_type": "n",
-    "label": "Transaction Type",
-    "len_type": "fixed",
-    "max_len": 2
-  },
-  "127.25.30": {
-    "content_type": "ans",
-    "label": "Unpredicatable Number",
-    "len_type": "fixed",
-    "max_len": 8
-  },
-  "127.25.31": {
-    "content_type": "ans",
-    "label": "Issuer Authentication Data",
-    "len_type": "llvar",
-    "max_len": 32
-  },
-  "127.25.32": {
-    "content_type": "ans",
-    "label": "Issuer Script Template 1",
-    "len_type": "llllvar",
-    "max_len": 3354
-  },
-  "127.25.33": {
-    "content_type": "ans",
-    "label": "Issuer Script Template 2",
-    "len_type": "llllvar",
-    "max_len": 3354
-  },
-  "127.26": {
-    "content_type": "ans",
-    "label": "Original Node",
-    "len_type": "llvar",
-    "max_len": 12,
-    "min_len": 10
-  },
-  "127.27": {
-    "content_type": "ans",
-    "label": "Card Verification Result",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.28": {
-    "content_type": "n",
-    "label": "American Express Card Identifier (CID)",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.29": {
-    "content_type": "b",
-    "label": "3D Secure Data",
-    "len_type": "fixed",
-    "max_len": 40
-  },
-  "127.30": {
-    "content_type": "ans",
-    "label": "3D Secure Result",
-    "len_type": "fixed",
-    "max_len": 1
-  },
-  "127.31": {
-    "content_type": "ans",
-    "label": "Issuer Network ID",
-    "len_type": "llvar",
-    "max_len": 11,
-    "min_len": 10
-  },
-  "127.32": {
-    "content_type": "b",
-    "label": "UCAF data",
-    "len_type": "llvar",
-    "max_len": 33,
-    "min_len": 10
-  },
-  "127.33": {
-    "content_type": "n",
-    "label": "Extended Transaction Type",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.34": {
-    "content_type": "n",
-    "label": "Account Type Qualifiers",
-    "len_type": "fixed",
-    "max_len": 2
-  },
-  "127.35": {
-    "content_type": "ans",
-    "label": "Acquirer Network ID",
-    "len_type": "llvar",
-    "max_len": 11,
-    "min_len": 10
-  },
-  "127.36": {
-    "content_type": "ans",
-    "label": "Customer ID",
-    "len_type": "llvar",
-    "max_len": 25,
-    "min_len": 10
-  },
-  "127.37": {
-    "content_type": "an",
-    "label": "Extended Response Code",
-    "len_type": "fixed",
-    "max_len": 4
-  },
-  "127.38": {
-    "content_type": "an",
-    "label": "Additional POS Data Code",
-    "len_type": "llvar",
-    "max_len": 99,
-    "min_len": 10
-  },
-  "127.39": {
-    "content_type": "an",
-    "label": "Original Response Code",
-    "len_type": "fixed",
-    "max_len": 2
+    "max_len": 100
   },
   "128": {
     "content_type": "b",

@@ -1,28 +1,24 @@
-use crate::IsoMessageError;
+mod content_type;
+mod len_type;
 
-use super::{content_type::ContentType, length_type::LengthType};
 use serde::Deserialize;
 
-fn bitmap_default() -> bool {
-    false
-}
+use crate::error::IsoMessageError;
+
+use self::{content_type::ContentType, len_type::LengthType};
 
 #[derive(Deserialize, Debug)]
+#[serde(tag = "data_element")]
 pub struct Field {
+    data_element: u8,
     content_type: ContentType,
     label: &'static str,
     len_type: LengthType,
     max_len: usize,
     min_len: Option<usize>,
-    #[serde(default = "bitmap_default")]
-    is_bitmap: bool,
 }
 
 impl Field {
-    pub fn is_bitmap(&self) -> bool {
-        self.is_bitmap
-    }
-
     pub fn value_to_buffer(&self, value: &str) -> Vec<u8> {
         let mut value_buf = value.as_bytes().to_vec();
         if let Some(leading_digit) = self.len_type.get_leading_digits() {
@@ -52,38 +48,19 @@ impl Field {
     pub fn get_value_from_buffer(&self, buffer: &[u8]) -> Result<(String, usize), IsoMessageError> {
         if let Some(leading_digits) = self.len_type.get_leading_digits() {
             let var_len = String::from_utf8(buffer[..leading_digits].to_vec())
-                .map_err(|_| {
-                    IsoMessageError::InvalidInput(format!(
-                        "Unable to get leading digits from field {} as utf-8 from buffer",
-                        self.label
-                    ))
-                })?
+                .map_err(|_| IsoMessageError::InvalidInput(self.data_element))?
                 .parse::<usize>()
-                .map_err(|_| {
-                    IsoMessageError::InvalidInput(format!(
-                        "Unable to to convert leading digits for field {} to usize",
-                        self.label
-                    ))
-                })?;
+                .map_err(|_| IsoMessageError::InvalidInput(self.data_element))?;
 
             return Ok((
                 String::from_utf8(buffer[leading_digits..var_len + leading_digits].to_vec())
-                    .map_err(|_| {
-                        IsoMessageError::InvalidInput(format!(
-                            "Unable to convert field {} as utf-8 from buffer",
-                            self.label
-                        ))
-                    })?,
+                    .map_err(|_| IsoMessageError::InvalidInput(self.data_element))?,
                 var_len + leading_digits,
             ));
         };
         Ok((
-            String::from_utf8(buffer[..self.max_len].to_vec()).map_err(|_| {
-                IsoMessageError::InvalidInput(format!(
-                    "Unable to convert field {} as utf-8 from buffer",
-                    self.label
-                ))
-            })?,
+            String::from_utf8(buffer[..self.max_len].to_vec())
+                .map_err(|_| IsoMessageError::InvalidInput(self.data_element))?,
             self.max_len,
         ))
     }

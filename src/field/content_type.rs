@@ -34,6 +34,7 @@ const ALPHA: &str = "A-Za-z";
 const PADDING: &str = "*#\x20 ";
 const NUMERIC: &str = "0-9";
 const SPECIAL: &str = r#"-!$%^&*()_+|~=`{}\[\]:";'<>?,\./ \\"#;
+
 lazy_static! {
     static ref BYTES_REGEX: Regex = Regex::new("^[A-Fa-f0-9]+$").unwrap();
     static ref NUMBER_REGEX: Regex = Regex::new(format!("^[{NUMERIC}]+$").as_str()).unwrap();
