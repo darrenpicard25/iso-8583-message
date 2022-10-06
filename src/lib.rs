@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 
+mod bitmaps;
 mod error;
 mod field;
 mod format;
 
-pub type IsoMessageMap = HashMap<&'static str, String>;
+pub type IsoMessageMap = HashMap<u8, String>;
 
 pub struct IsoMessage {
     original_buffer: Option<Vec<u8>>,
