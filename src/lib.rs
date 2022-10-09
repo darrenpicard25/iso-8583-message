@@ -3,13 +3,22 @@ use std::collections::HashMap;
 use bitmaps::Bitmaps;
 use error::IsoMessageError;
 use format::BASE_ISO_FORMAT;
+use response::RESPONSE_FIELDS;
 
 mod bitmaps;
 mod error;
 mod field;
 mod format;
+mod response;
 
 type IsoMessageMap = HashMap<u8, String>;
+
+const REQUEST_MESSAGE_TYPES: [&str; 9] = [
+    "0100", "0120", "0200", "0220", "0302", "0400", "0420", "0620", "0800",
+];
+const RESPONSE_MESSAGE_TYPES: [&str; 9] = [
+    "0110", "0130", "0210", "0230", "0312", "0410", "0430", "0630", "0810",
+];
 
 pub struct IsoMessage {
     original_buffer: Option<Vec<u8>>,
@@ -59,6 +68,39 @@ impl IsoMessage {
         }
     }
 
+    pub fn to_response(self, response_code: &'static str) -> Result<Self, IsoMessageError> {
+        if self.is_response() {
+            return Ok(self);
+        }
+
+        let mti = self.get_mti().ok_or(IsoMessageError::InvalidInput(0))?;
+        let mti = mti
+            .to_owned()
+            .parse::<u32>()
+            .map_err(|_| IsoMessageError::InvalidInput(0))?;
+        let mti = format!("{:0<4}", (mti + 10));
+
+        let fields_to_keep_list = RESPONSE_FIELDS.get(mti.as_str());
+        let iso_message = self.set_field(0, mti).set_field(39, response_code.into());
+
+        if let Some(fields_to_keep) = fields_to_keep_list {
+            let fields_to_remove: Vec<u8> = iso_message
+                .get_message_map()
+                .keys()
+                .filter(|key| !fields_to_keep.contains(*key))
+                .map(|key| *key)
+                .collect();
+
+            let iso_message = fields_to_remove
+                .iter()
+                .fold(iso_message, |acc, field| acc.delete_field(*field));
+
+            return Ok(iso_message);
+        } else {
+            return Ok(iso_message);
+        }
+    }
+
     pub fn get_mti(&self) -> Option<&str> {
         self.get_field(0)
     }
@@ -85,6 +127,22 @@ impl IsoMessage {
         self.map.remove(&index);
 
         self
+    }
+
+    pub fn is_request(&self) -> bool {
+        if let Some(mti) = self.get_mti() {
+            REQUEST_MESSAGE_TYPES.contains(&mti)
+        } else {
+            false
+        }
+    }
+
+    pub fn is_response(&self) -> bool {
+        if let Some(mti) = self.get_mti() {
+            RESPONSE_MESSAGE_TYPES.contains(&mti)
+        } else {
+            false
+        }
     }
 
     pub fn get_message_buffer(&self) -> Result<Vec<u8>, IsoMessageError> {
