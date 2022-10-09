@@ -2,7 +2,7 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, PartialEq)]
 pub enum ContentType {
     #[serde(rename = "b")]
     Bytes,
@@ -48,7 +48,7 @@ lazy_static! {
     static ref ALPHA_NUMERIC_SPECIAL_REGEX: Regex =
         Regex::new(format!("^[{ALPHA}{NUMERIC}{SPECIAL}]+$").as_str()).unwrap();
     static ref TRANSACTION_NUMERIC_REGEX: Regex =
-        Regex::new(format!("^[{NUMERIC}]+$").as_str()).unwrap();
+        Regex::new(format!("^[C|D][{NUMERIC}]+$").as_str()).unwrap();
     static ref ALPHA_SPECIAL_REGEX: Regex =
         Regex::new(format!("^[{ALPHA}{SPECIAL}]+$").as_str()).unwrap();
     static ref NUMERIC_SPECIAL_REGEX: Regex =

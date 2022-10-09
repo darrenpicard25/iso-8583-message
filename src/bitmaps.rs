@@ -34,11 +34,11 @@ impl Bitmaps {
                     return acc;
                 }
 
-                let index = key / 65;
-                let position = key % 65;
+                let index = (key - 1) / 64;
+                let position = (key - 1) % 64;
 
                 if let Some(bitmap) = acc.get_mut(index as usize) {
-                    *bitmap = *bitmap | (STARTING_BIT >> position + index - 1);
+                    *bitmap = *bitmap | (STARTING_BIT >> position);
                 };
 
                 acc
@@ -75,11 +75,69 @@ impl Bitmaps {
     pub fn byte_length(&self) -> usize {
         self.maps.len() * 8
     }
+
+    pub fn items(&self) -> Vec<u8> {
+        const STARTING_BIT: u64 = 1u64.reverse_bits();
+        self.maps
+            .iter()
+            .enumerate()
+            .flat_map(|(index, map)| {
+                (0..64u8).filter_map(move |position| {
+                    // Dont want to return bitmap positions
+                    if position == 0 || position == 64 || position == 128 {
+                        return None;
+                    }
+
+                    if (STARTING_BIT >> position & map) != 0 {
+                        return Some(1 + position + 64u8 * index as u8);
+                    }
+
+                    None
+                })
+            })
+            .collect()
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::Bitmaps;
+
+    mod items {
+        use super::Bitmaps;
+
+        #[test]
+        fn should_return_array_with_elements_in_1_bitmap() {
+            let bitmaps = Bitmaps {
+                maps: [4611686018427387905].to_vec(),
+            };
+
+            assert_eq!(bitmaps.items(), [2, 64].to_vec())
+        }
+
+        #[test]
+        fn should_return_array_with_elements_in_2_bitmap() {
+            let bitmaps = Bitmaps {
+                maps: [13835058055282163713, 4611686018427387905].to_vec(),
+            };
+
+            assert_eq!(bitmaps.items(), [1, 2, 64, 66, 128].to_vec())
+        }
+
+        #[test]
+        fn should_return_array_with_elements_in_3_bitmap() {
+            let bitmaps = Bitmaps {
+                maps: [
+                    13835058055282163713,
+                    13835058055282163713,
+                    4611686018427387905,
+                ]
+                .to_vec(),
+            };
+
+            assert_eq!(bitmaps.items(), [1, 2, 64, 65, 66, 128, 130, 192].to_vec())
+        }
+    }
 
     mod from_buffer {
         use super::Bitmaps;
@@ -160,6 +218,28 @@ mod tests {
             let bitmaps = Bitmaps::from_iso_message_map(&map);
 
             assert_eq!(bitmaps.maps, [13835058055282163713, 4611686018427387905])
+        }
+
+        #[test]
+        fn should_construct_3_bitmap_from_map() {
+            let map = IsoMessageMap::from([
+                (2, "".to_owned()),
+                (64, "".to_owned()),
+                (66, "".to_owned()),
+                (128, "".to_owned()),
+                (130, "".to_owned()),
+            ]);
+
+            let bitmaps = Bitmaps::from_iso_message_map(&map);
+
+            assert_eq!(
+                bitmaps.maps,
+                [
+                    13835058055282163713,
+                    13835058055282163713,
+                    4611686018427387904
+                ]
+            )
         }
 
         #[test]
