@@ -20,6 +20,7 @@ const RESPONSE_MESSAGE_TYPES: [&str; 9] = [
     "0110", "0130", "0210", "0230", "0312", "0410", "0430", "0630", "0810",
 ];
 
+#[derive(Debug)]
 pub struct IsoMessage {
     original_buffer: Option<Vec<u8>>,
     map: IsoMessageMap,
