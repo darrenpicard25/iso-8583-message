@@ -1,0 +1,1088 @@
+{
+  "name": "ISO 8583 1987 Mastercard Dual Message Authorization standard",
+  "version": 1,
+  "map": {
+    "0": {
+      "label": "Message Type Identifier",
+      "description": "The Message Type Identifier (MTI) is a four-digit numeric data element describing the type of message being interpreted.",
+      "length_type": "fixed",
+      "length": 4,
+      "content_type": "n",
+      "redaction_level": "none"
+    },
+    "1": {
+      "label": "Bit Map, Secondary",
+      "description": "DE 1 (Bit Map, Secondary) is a series of 64 bits that identifies the presence (1) or absence (0) of each data element in the second segment of a message. This would include DE 65 (Bit Map, Extended) through DE 128 (Message Authentication Code [MAC]).",
+      "length": 8,
+      "content_type": "b",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "2": {
+      "label": "Primary Account Number [PAN]",
+      "description": "DE 2 (Primary Account Number [PAN]) is a series of digits used to identify a customer account or relationship.",
+      "length": 19,
+      "content_type": "n",
+      "length_type": "llvar",
+      "redaction_level": "last4"
+    },
+    "3": {
+      "label": "Processing Code",
+      "description": "DE 3 (Processing Code) describes the effect of a transaction on the customer account and the type of accounts affected.",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "4": {
+      "label": "Amount, Transaction",
+      "description": "DE 4 (Amount, Transaction) is the amount of funds the cardholder requested in the local currency of the acquirer or source location of the transaction.",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "5": {
+      "label": "Amount, Settlement",
+      "description": "DE 5 (Amount, Settlement) is the amount of funds to be transferred between the acquirer and the issuer equal to DE 4 (Amount, Transaction) in the settlement currency. Mastercard programs and services use U.S. dollars as the currency of settlement",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "6": {
+      "label": "Amount, Cardholder Billing",
+      "description": "DE 6 (Amount, Cardholder Billing) indicates the transaction amount in the issuer's currency. It is the amount billed to the cardholder in the cardholder account currency, excluding cardholder billing fees.",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "7": {
+      "label": "Transmission Date and Time",
+      "description": "DE 7 (Transmission Date and Time) is the date and time that a message is entered into the Mastercard Network. Date and time must be expressed in Coordinated Universal Time (UTC).",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "8": {
+      "label": "Amount, Cardholder Billing Fee",
+      "description": "DE 8 (Amount, Cardholder Billing Fee) is the fee the issuer is to bill to the cardholder in the same currency as DE 6 (Amount, Cardholder Billing).",
+      "length": 8,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "9": {
+      "label": "Conversion Rate, Settlement",
+      "description": "DE 9 (Conversion Rate, Settlement) is the factor used in the conversion from transaction to settlement amount. DE 4 (Amount, Transaction) is multiplied by DE 9 to determine DE 5 (Amount, Settlement).",
+      "length": 8,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "10": {
+      "label": "Conversion Rate, Cardholder Billing",
+      "description": "DE 10 (Conversion Rate, Cardholder Billing) is the factor used in the conversion from transaction to cardholder billing amount. DE 4 (Amount, Transaction) is multiplied by DE 10 to determine DE 6 (Amount, Cardholder Billing).",
+      "length": 8,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "11": {
+      "label": "System Trace Audit Number [STAN]",
+      "description": "DE 11 (Systems Trace Audit Number [STAN]) is a number a message initiator assigns to uniquely identify a transaction.",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "12": {
+      "label": "Time, Local Transaction",
+      "description": "DE 12 (Time, Local Transaction) is the local time at which the transaction takes place at the point of acceptor location",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "13": {
+      "label": "Date, Local Transaction",
+      "description": "DE 13 (Date, Local Transaction) is the local month and day on which the transaction takes place at the point of acceptor location.",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "14": {
+      "label": "Date, Expiration",
+      "description": "DE 14 (Date, Expiration) specifies the year and month after which an issuer designates a cardholder's card to be expired.",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "15": {
+      "label": "Date, Settlement",
+      "description": "DE 15 (Date, Settlement) is the date (month and day) that funds will be transferred between an acquirer and an issuer or an appropriate intermediate network facility (INF).",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "16": {
+      "label": "Date, Conversion",
+      "description": "DE 16 (Date, Conversion) indicates the effective date of DE 9 (Conversion Rate, Settlement) and also DE 10 (Conversion Rate, Cardholder Billing) whenever these data elements are present within a message.",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "17": {
+      "label": "Date, Capture",
+      "description": "DE 17 (Date, Capture) is the month and day the acquirer processed the transaction data",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "18": {
+      "label": "Merchant Type",
+      "description": "DE 18 (Merchant Type) is the classification (acceptor business code/merchant category code [MCC]) of the merchant's type of business or service.",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "19": {
+      "label": "Acquiring Institution Country Code",
+      "description": "DE 19 (Acquiring Institution Country Code) is the code of the country where the acquiring institution is located.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "20": {
+      "label": "Primary Account Number [PAN] Country Code",
+      "description": "DE 20 (Primary Account Number [PAN] Country Code) is a code identifying the country where the card issuer is located.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "21": {
+      "label": "Forwarding Institution Country Code",
+      "description": "DE 21 (Forwarding Institution Country Code) is the code of the country where the forwarding institution is located.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "22": {
+      "label": "Point-of-Service [POS] Entry Mode",
+      "description": "DE 22 (Point-of-Service [POS] Entry Mode) indicates the method used for PAN entry to initiate a transaction and the PIN entry capabilities.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "23": {
+      "label": "Card Sequence Number",
+      "description": "DE 23 (Card Sequence Number) distinguishes among separate cards having the same DE 2 (Primary Account Number [PAN]) or DE 34 (Primary Account Number [PAN] Extended). Issuers may encode chip cards with Card Sequence Numbers. Acquirers with chip-reading capability may pass this information encoded on the chip in DE 23 of Authorization Request/0100 messages.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "24": {
+      "label": "Network International ID",
+      "description": "DE 24 (Network International ID) identifies a single international network of card issuers.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "25": {
+      "label": "Point-of-Service [POS] Condition Code",
+      "description": "DE 25 (Point-of-Service [POS] Condition Code) is an ID of the condition under which the transaction takes place at the point of interaction",
+      "length": 2,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "26": {
+      "label": "Point-of-Service (POS) Personal ID Number [PIN] Capture Code",
+      "description": "DE 26 (Point-of-Service [POS] Personal ID Number [PIN] Capture Code) indicates the technique, maximum number, or both of PIN characters that can be accepted by the POS terminal used to construct the PIN data.",
+      "length": 2,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "27": {
+      "label": "Authorization ID Response Length",
+      "description": "DE 27 (Authorization ID Response Length) is the maximum length of the authorization response that the acquirer can accommodate. The issuer or its agent is expected to limit response to this length.",
+      "length": 1,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "28": {
+      "label": "Amount, Transaction Fee",
+      "description": "DE 28 (Amount, Transaction Fee) is the fee charged (for example, by the acquirer) for transaction activity in the currency of DE 4 (Amount, Transaction).",
+      "length": 9,
+      "content_type": "an",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "29": {
+      "label": "Amount, Settlement Fee",
+      "description": "DE 29 (Amount, Settlement Fee) is the fee to be transferred between the acquirer and the issuer equal to DE 28 (Amount, Transaction Fee) in the currency of DE 5 (Amount, Settlement).",
+      "length": 9,
+      "content_type": "an",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "30": {
+      "label": "Amount, Transaction Processing Fee",
+      "description": "DE 30 (Amount, Transaction Processing Fee) is the fee charged (for example, by the acquirer, issuer, or INF) for the handling and routing of messages in the currency of DE 4 (Amount, Transaction).",
+      "length": 9,
+      "content_type": "an",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "31": {
+      "label": "Amount, Settlement Processing Fee",
+      "description": "DE 31 (Amount, Settlement Processing Fee) is the fee charged (for example, by the acquirer, issuer, or INF) for the handling and routing of messages in the currency of DE 5 (Amount, Settlement).",
+      "length": 9,
+      "content_type": "an",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "32": {
+      "label": "Acquiring Institution ID Code",
+      "description": "DE 32 (Acquiring Institution ID Code) identifies the acquiring institution (for example, merchant bank) or its agent.",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "llvar",
+      "redaction_level": "none"
+    },
+    "33": {
+      "label": "Forwarding Institution ID Code",
+      "description": "DE 33 (Forwarding Institution ID Code) identifies the institution forwarding a Request or Advice message in an interchange system if it is not the same institution as specified in DE 32 (Acquiring Institution ID Code). DE 33 is used within a message to contain the Mastercard sixdigit customer ID number of the CPS or INF responsible for directly routing that message to the Authorization Platform.",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "llvar",
+      "redaction_level": "none"
+    },
+    "34": {
+      "label": "Primary Account Number [PAN], Extended",
+      "description": "DE 34 (Primary Account Number [PAN], Extended) identifies a customer account or relationship, and is used only when PAN begins with a 59 BIN.",
+      "length": 28,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "disabled": true,
+      "redaction_level": "last4"
+    },
+    "35": {
+      "label": "Track 2 Data",
+      "description": "DE 35 (Track 2 Data) is the information encoded on track 2 of the card magnetic stripe as defined in the ISO 7813 specification, including data element separators but excluding beginning and ending sentinels and longitudinal redundancy check (LRC) characters as defined therein.",
+      "length": 37,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "redaction_level": "full"
+    },
+    "36": {
+      "label": "Track 3 Data",
+      "description": "DE 36 (Track 3 Data) is the information encoded on track 3 of the card magnetic stripe as defined in the ISO 4909-1986 specification, including data element separators but excluding beginning and ending sentinels and LRC characters as defined therein.",
+      "length": 104,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "37": {
+      "label": "Retrieval Reference Number",
+      "description": "DE 37 (Retrieval Reference Number) is a document reference number supplied by the system retaining the original source document of the transaction and assists in locating that source document or a copy thereof. DE 37 is made available for use by automated merchant POS systems that may be interconnected into the interchange system. Merchant POS systems may assign a unique receipt or sales document ID to be used to satisfy regulatory or legal requirements when the merchant performs source document capture and truncation. DE 37 may be used to relay source document reference numbers to the issuer at the time each transaction is processed.",
+      "length": 12,
+      "content_type": "an",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "38": {
+      "label": "Authorization ID Response",
+      "description": "DE 38 (Authorization ID Response) is a transaction response ID code that the authorizing institution assigns. DE 38 is used to transmit a card issuer's “authorization code” for Authorization transactions.",
+      "length": 6,
+      "content_type": "ans",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "39": {
+      "label": "Response Code",
+      "description": "DE 39 (Response Code) defines the disposition of a previous message or an action taken as a result of receipt of a previous message. Response codes also are used to indicate approval or decline of a transaction. In the event an authorization is declined, the response code indicates the reason for rejection and may indicate an action to be taken at the acceptor (for example, capture card).",
+      "length": 2,
+      "content_type": "an",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "40": {
+      "label": "Service Restriction Code",
+      "description": "DE 40 (Service Restriction Code) identifies geographic or service availability.",
+      "length": 3,
+      "content_type": "an",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "41": {
+      "label": "Acceptor Terminal ID",
+      "description": "The identifier assigned by the acceptor or the acquirer to the terminal, payment gateway, or other acceptance device used to capture account data to effect a transaction at the acceptor location.",
+      "length": 8,
+      "content_type": "ans",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "42": {
+      "label": "Acceptor ID",
+      "description": "This data element contains the identifier assigned by the acquirer to the acceptor and its location, or to the payment facilitator.",
+      "length": 15,
+      "content_type": "ans",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "43": {
+      "label": "Acceptor Name and Location",
+      "description": "DE 43 (Acceptor Name and Location) contains the name and location of the acceptor point of interaction.",
+      "length": 40,
+      "content_type": "ans",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "44": {
+      "label": "Additional Response Data",
+      "description": "DE 44 (Additional Response Data) provides other supplemental data that may be required in response to an authorization or other type of transaction request. This data element may also be present in any response message when DE 39 (Response Code) contains the value 30, indicating that a Format Error condition was detected in the preceding message. In this case, DE 44 will contain either a three- or six-digit value that indicates the data element number (three digits) only or the data element plus subelement numbers (six digits) in which the format error occurred. If the format error occurred in a data element that does not have subelements, DE 44 will contain a three-digit numeric value.",
+      "length": 25,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "redaction_level": "none"
+    },
+    "45": {
+      "label": "Track 1 Data",
+      "description": "DE 45 (Track 1 Data) is the information encoded on track 1 of the card's magnetic stripe as defined in the ISO 7813 specification, including data element separators but excluding beginning and ending sentinels and LRC characters as defined in this data element definition",
+      "length": 76,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "redaction_level": "full"
+    },
+    "46": {
+      "label": "Expanded Additional Amounts",
+      "description": "DE 46 (Additional Data—ISO Use) provides data supplemental to that already conveyed in the specific data elements in the message.",
+      "length": 76,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "47": {
+      "label": "Additional Data: National Use",
+      "description": "DE 47 (Additional Data—National Use) is reserved for national organizations to define data unique to country applications.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "48": {
+      "label": "Additional Data: Private Use",
+      "description": "DE 48 (Additional Data: Private Use) is reserved for private organizations to define data unique to specific networks or specific programs and services. DE 48 provides other supplemental data in a message when a specific ISO-designated data element is not available. It is a free-format, variable-length data element that may be used for multiple purposes",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "49": {
+      "label": "Currency Code, Transaction",
+      "description": "DE 49 (Currency Code, Transaction) is the local currency of the acquirer or source location of the transaction. It specifies the currency used in DE 4 (Amount, Transaction) and DE 95 (Replacement Amounts), subfield 1 (Actual Amount, Transaction).",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "50": {
+      "label": "Currency Code, Settlement",
+      "description": "DE 50 (Currency Code, Settlement) defines the currency of DE 5 (Amount, Settlement), DE 29 (Amount, Settlement Fee), and DE 95 (Replacement Amounts), subfield 2 (Actual Amount, Settlement)",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "51": {
+      "label": "Currency Code, Cardholder Billing",
+      "description": "DE 51 (Currency Code, Cardholder Billing) defines the currency of DE 6 (Amount, Cardholder Billing), DE 8 (Amount, Cardholder Billing Fee), and DE 95 (Replacement Amounts), subfield 3 (Actual Amount, Cardholder Billing).",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "52": {
+      "label": "Personal ID Number [PIN] Data",
+      "description": "DE 52 (Personal ID Number [PIN] Data) contains a number assigned to a cardholder intended to uniquely identify that cardholder at the point of interaction. The use of the PIN is subject to bilateral agreement. The data element may contain the PIN itself or a derivative. This data element transmits PIN information from acquirers to issuers (or to the network) for PIN verification or validation.",
+      "length": 8,
+      "content_type": "b",
+      "length_type": "fixed",
+      "redaction_level": "full"
+    },
+    "53": {
+      "label": "Security-Related Control Information",
+      "description": "DE 53 (Security-Related Control Information) is used with PIN data to provide specific information about PIN block encoding and PIN data encryption to assist the issuer (or its agent) in processing PINs entered at the point of interaction.",
+      "length": 16,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "full"
+    },
+    "54": {
+      "label": "Additional Amounts",
+      "description": "DE 54 (Additional Amounts) provides information on up to two amount types and related account data.",
+      "length": 240,
+      "content_type": "an",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "55": {
+      "label": "Integrated Circuit Card [ICC] System-Related Data",
+      "description": "DE 55 (Integrated Circuit Card [ICC] System-Related Data) contains binary data that only the issuer, the issuer agent, or MDES processes; it is used locally by the payment application on the chip at a chip-capable terminal. This data element is present in chip full-grade transactions and can be present in DSRP transactions.",
+      "length": 255,
+      "content_type": "b",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "56": {
+      "label": "Payment Account Data",
+      "description": "DE 56 (Payment Account Data) contains unique, non-financial reference information associated with the PAN or token used to initiate the transaction.",
+      "length": 37,
+      "content_type": "an",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "57": {
+      "label": "Reserved for National Use",
+      "description": "DE 57-DE 59 are reserved for future use",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "58": {
+      "label": "Reserved for National Use",
+      "description": "DE 57-DE 59 are reserved for future use",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "59": {
+      "label": "Reserved for National Use",
+      "description": "DE 57-DE 59 are reserved for future use",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "60": {
+      "label": "Advice Reason Code",
+      "description": "DE 60 (Advice Reason Code) indicates to the receiver of an Advice message the specific reason for the transmission of the Advice message",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "61": {
+      "label": "Point-of-Service [POS] Data",
+      "description": "DE 61 (Point-of-Service [POS] Data) indicates the conditions that exist at the point of service at the time of the transaction. Note that DE 61 supersedes and replaces the ISO-specified DE 25 (Point-of-Service [POS] Condition Code) which is not used in the Customer Interface Specification",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "62": {
+      "label": "Intermediate Network Facility [INF] Data",
+      "description": "DE 62 (Intermediate Network Facility [INF] Data), contains 'acquiring network trace information' that INFs may require to quickly and accurately route Administrative Advice/0620 messages back to the original acquiring institution. DE 62 assists acquiring INF facilities that connect directly to the Authorization Platform. It allows these INFs to maintain sufficient information within a message to permit immediate online routing of chargebacks and retrieval requests without the requirement of maintaining large online reference databases containing the original transactions.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "63": {
+      "label": "Network Data",
+      "description": "DE 63 (Network Data) is generated by the Authorization Platform for each originating message routed through the network. The receiver must retain the data element and use it in any response or acknowledgement message associated with the originating message.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "64": {
+      "label": "Message Authentication Code",
+      "description": "DE 64 (Message Authentication Code [MAC]) validates the source and the text of the message between the sender and the receiver",
+      "length": 8,
+      "content_type": "b",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "65": {
+      "label": "Bit Map, Extended",
+      "description": "DE 65 (Bit Map, Extended) is a series of eight bytes (64 bits) used to identify the presence (denoted by 1) or the absence (denoted by 0) of each data element in an extended (third) message segment",
+      "length": 8,
+      "content_type": "b",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "66": {
+      "label": "Settlement Code",
+      "description": "DE 66 (Settlement Code) indicates the result of a reconciliation request.",
+      "length": 1,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "67": {
+      "label": "Settlement Code",
+      "description": "DE 67 (Extended Payment Code) indicates the number of months that the cardholder prefers to pay for an item (the item purchased during the course of this transaction) if permitted by the card issuer",
+      "length": 2,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "68": {
+      "label": "Receiving Institution Country Code",
+      "description": "DE 68 (Receiving Institution Country Code) is the code of the country where the receiving institution is located",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "69": {
+      "label": "Settlement Institution Country Code",
+      "description": "DE 69 (Settlement Institution Country Code) is the code of the country where the settlement institution is located.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "70": {
+      "label": "Network Management Information Code",
+      "description": "DE 70 (Network Management Information Code) identifies network status.",
+      "length": 3,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "71": {
+      "label": "Message Number",
+      "description": "DE 71 (Message Number) is a sequential, cyclic number the message initiator assigns to a message. Message Number is used to monitor the integrity of interchange.",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "72": {
+      "label": "Message Number Last",
+      "description": "DE 72 (Message Number Last) is a sequential, cyclic number the message initiator assigns to a message, used to monitor the integrity of interchange",
+      "length": 4,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "73": {
+      "label": "Date, Action",
+      "description": "DE 73 (Date, Action) specifies the date (year, month, and day) of a future action. In addition, a message originator may use it as a static time such as a birthdate.",
+      "length": 6,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "74": {
+      "label": "Credits, Number",
+      "description": "DE 74 (Credits, Number) is the numeric sum of credit transactions processed.",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "75": {
+      "label": "Credits, Reversal Number",
+      "description": "DE 75 (Credits, Reversal Number) is the sum number of reversal credit transactions.",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "76": {
+      "label": "Debits, Number",
+      "description": "DE 76 (Debits, Number) is the sum number of debit transactions processed.",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "77": {
+      "label": "Debits, Reversal Number",
+      "description": "DE 77 (Debits, Reversal Number) is the sum number of reversal debit transactions.",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "78": {
+      "label": "Transfers, Number",
+      "description": "DE 78 (Transfers, Number) is the sum number of all transfer transactions processed",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "79": {
+      "label": "Transfers, Reversal Number",
+      "description": "DE 79 (Transfers, Reversal Number) is the sum number of all transfer reversal transactions processed",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "80": {
+      "label": "Inquiries, Number",
+      "description": "DE 80 (Inquiries, Number) is the sum number of inquiry transaction requests processed.",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "81": {
+      "label": "Authorizations, Number",
+      "description": "DE 81 (Authorizations, Number) is the sum number of Authorization Request/0100 and Authorization Advice/0120 messages processed.",
+      "length": 10,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "82": {
+      "label": "Credits, Processing Fee Amount",
+      "description": "DE 82 (Credits, Processing Fee Amount) is the sum of all processing fees due to an institution or customer for services associated with handling and routing transactions. This Mastercard definition replaces the ISO standard definition.",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "83": {
+      "label": "Credits, Transaction Fee Amount",
+      "description": "DE 83 (Credits, Transaction Fee Amount) is the sum of all transaction fees due to an institution or customer for processing interchange transactions. This Mastercard definition replaces the ISO standard definition.",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "84": {
+      "label": "Debits, Processing Fee Amount",
+      "description": "DE 84 (Debits, Processing Fee Amount) is the sum of all processing fees due from an institution or customer for services associated with handling and routing transactions. This Mastercard definition replaces the ISO standard definition",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "85": {
+      "label": "Debits, Transaction Fee Amount",
+      "description": "DE 85 (Debits, Transaction Fee Amount) is the sum of all transaction fees due from an institution or customer for processing interchange transactions. This Mastercard definition replaces the ISO standard definition.",
+      "length": 12,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "86": {
+      "label": "Credits, Amount",
+      "description": "DE 86 (Credits, Amount) is the sum amount of all credit transactions processed exclusive of any fees",
+      "length": 16,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "87": {
+      "label": "Credits, Reversal Amount",
+      "description": "DE 87 (Credits, Reversal Amount) is the sum amount of reversal credits processed exclusive of any fees.",
+      "length": 16,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "88": {
+      "label": "Debits, Amount",
+      "description": "DE 88 (Debits, Amount) is the sum amount of all debit transactions processed exclusive of any fees.",
+      "length": 16,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "89": {
+      "label": "Debits, Reversal Amount",
+      "description": "DE 89 (Debits, Reversal Amount) is the sum amount of reversal debits processed exclusive of any fees.",
+      "length": 16,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "90": {
+      "label": "Original Data Elements",
+      "description": "DE 90 (Original Data Elements) is the data elements in the original message, intended to identify a transaction for correction or reversal.",
+      "length": 42,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "91": {
+      "label": "Issuer File Update Code",
+      "description": "DE 91 (Issuer File Update Code) indicates to the system maintaining a file which procedure to follow.",
+      "length": 1,
+      "content_type": "an",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "92": {
+      "label": "File Security Code",
+      "description": "DE 92 (File Security Code) is an Issuer File Update security code used to indicate that a message originator is authorized to update a file.",
+      "length": 2,
+      "content_type": "an",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "93": {
+      "label": "Response Indicator",
+      "description": "DE 93 (Response Indicator) indicates the update action a POS system takes.",
+      "length": 5,
+      "content_type": "n",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "94": {
+      "label": "Service Indicator",
+      "description": "DE 94 (Service Indicator) indicates the service a message recipient requires.",
+      "length": 7,
+      "content_type": "ans",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "95": {
+      "label": "Replacement Amounts",
+      "description": "DE 95 (Replacement Amounts) contains the “actual amount” subfields necessary to perform a partial or full reversal of a financial transaction.",
+      "length": 42,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "none"
+    },
+    "96": {
+      "label": "Message Security Code",
+      "description": "DE 96 (Message Security Code) is a verification between an acceptor and a card issuer that a message is authorized to update or modify a special file.",
+      "length": 8,
+      "content_type": "n",
+      "length_type": "fixed",
+      "redaction_level": "full"
+    },
+    "97": {
+      "label": "Amount, Net Settlement",
+      "description": "DE 97 (Amount, Net Settlement) is the net value of all gross amounts.",
+      "length": 17,
+      "content_type": "an",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "98": {
+      "label": "Payee",
+      "description": "DE 98 (Payee), is the third-party beneficiary in a payment transaction.",
+      "length": 25,
+      "content_type": "ans",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "99": {
+      "label": "Settlement Institution ID Code",
+      "description": "DE 99 (Settlement Institution ID Code) identifies the settlement institution or its agent.",
+      "length": 11,
+      "content_type": "n",
+      "length_type": "llvar",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "100": {
+      "label": "Receiving Institution ID Code",
+      "description": "DE 100 (Receiving Institution ID Code) is the identity of the institution receiving a Request or Advice message in an interchange system if not the same as identified in DE 2 (Primary Account Number [PAN]) or DE 34 (Primary Account Number [PAN], Extended). The Authorization Platform uses DE 100 to determine the destination routing of Administrative/06xx messages. For these messages, DE 33 (Forwarding Institution ID Code) identifies the sender of the message; DE 100 identifies the receiver of the message.",
+      "length": 11,
+      "content_type": "n",
+      "length_type": "llvar",
+      "redaction_level": "none"
+    },
+    "101": {
+      "label": "File Name",
+      "description": "DE 101 (File Name) is the actual or abbreviated name of the file that the issuer accesses. DE 101 is used in Issuer File Update/03xx messages to identify the specific name of an Authorization Platform data file or program parameter table that is being updated by a customer's Issuer File Update Request/0302",
+      "length": 17,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "redaction_level": "none"
+    },
+    "102": {
+      "label": "Account ID 1",
+      "description": "DE 102 (Account ID-1) is a series of digits that identify a customer account or relationship. Customers primarily use it for the “from” account in a transfer transaction. DE 102 may be used in Authorization Request Response/0110 messages to identify the specific “from” account that the transaction affected. DE 102 may be used for printing on cardholder transaction receipts.",
+      "length": 28,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "redaction_level": "full"
+    },
+    "103": {
+      "label": "Account ID 2",
+      "description": "DE 103 (Account ID-2) is a series of digits that identify a customer account or relationship. Customers primarily use it for the “to” account in a transfer transaction.",
+      "length": 28,
+      "content_type": "ans",
+      "length_type": "llvar",
+      "redaction_level": "full"
+    },
+    "104": {
+      "label": "Digital Payment Data",
+      "description": "DE 104 (Digital Payment Data) is used in Authorization Request/0100 messages to send digital payment data for ecommerce transactions.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "105": {
+      "label": "Reserved for Mastercard Use",
+      "description": "DE 105-DE 107 (Reserved for Mastercard Use) are reserved for Mastercard use.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "106": {
+      "label": "Fleet Service Data",
+      "description": "DE 106 (Fleet Service Data) contains information pertaining to Fleet card transactions and the items being purchased.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "107": {
+      "label": "Reserved for Mastercard Use",
+      "description": "DE 105-DE 107 (Reserved for Mastercard Use) are reserved for Mastercard use.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "none"
+    },
+    "108": {
+      "label": "Additional Transaction Reference Data",
+      "description": "DE 108 (Additional Transaction Reference Data) provides the capability for the acquirers to send Receiver, Sender, and transaction level data to the issuer in account status inquiry transactions, Mastercard Send Transactions (Funding Transactions, MoneySend Payment Transactions, and Gaming and Gambling Payments Transactions), and Mastercard Merchant Presented QR Transactions.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "109": {
+      "label": "Reserved for ISO Use",
+      "description": "DE 109 (Reserved for ISO Use) is reserved for ISO use.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "110": {
+      "label": "Encryption Data",
+      "description": "DE 110 (Encryption Data) is used in PIN encryption data and key management encryption data.",
+      "length": 999,
+      "content_type": "b",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "111": {
+      "label": "Reserved for ISO Use",
+      "description": "DE 111 (Reserved for ISO Use) is reserved for ISO use.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "disabled": true,
+      "redaction_level": "full"
+    },
+    "112": {
+      "label": "Additional Data [National Use]",
+      "description": "DE 112 (Additional Data [National Use]) is reserved for national organizations to define data unique to specific networks or specific programs and services. DE 112 provides other supplemental data in a message when a specific ISO-designated data element is not available. It is a free-format, variable-length, alphanumeric data element used for information on transactions between customers.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "113": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard recommends that DE 113 contain Application Generic Data and Application Banking Data. This data element is typically present for consumer and business application requests, counteroffer replies, and pre-approved offer inquiries.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "114": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard recommends that DE 114 contain Consumer Application Data or Consumer Maintenance Data. This data element is typically present for consumer application requests, application status inquiries, preapproved offer inquiries, or consumer maintenance requests as well as consumer application or consumer maintenance responses. DE 114 also may be present for business application requests that require a personal guarantee.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "115": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard recommends that DE 115 contain Business Application Data or Business Maintenance Data. This data element is typically present for business application requests, application status inquiries, preapproved offer inquiries, or business maintenance requests as well as business application or business maintenance responses.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "116": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard recommends that DE 116 contain Consumer User Lookup Data and Consumer Account Lookup Data. This data element is typically present to request consumer user and account information and provide consumer user account information.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "117": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard recommends that DE 117 contain Business User Lookup Data and Business Account Lookup Data. This data element is typically present to request business user and account information and provide business user account information.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "118": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard recommends that DE 118 contain Authorized Users. This data element may be present for consumer and business application requests and lookup responses.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "119": {
+      "label": "Reserved for National Use",
+      "description": "Mastercard is reserving DE 119 for customer-specific data and is not recommending any particular usage.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "120": {
+      "label": "Record Data",
+      "description": "DE 120 (Record Data) is a variable-length data element used for transmitting file record data or textual character string data in various message types.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "121": {
+      "label": "Authorizing Agent ID Code",
+      "description": "DE 121 (Authorizing Agent ID Code), when used, must contain the appropriate Mastercardassigned customer ID number that uniquely identifies the Authorization Platform Stand-In processing facility or alternate routing CPS responsible for performing Stand-In processing onbehalf of the issuer.",
+      "length": 999,
+      "content_type": "n",
+      "length_type": "lllvar",
+      "redaction_level": "none"
+    },
+    "122": {
+      "label": "Additional Record Data",
+      "description": "DE 122 is a free-format, variable-length data element used for transmitting file record data in various message types.",
+      "length": 999,
+      "content_type": "n",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "123": {
+      "label": "Receipt Free Text",
+      "description": "DE 123 (Receipt Free Text) only applies to the Swedish Domestic Authorization Switching Service (SASS), Peru, and the Mastercard Installment Payment Service. For SASS, DE 123 contains information to be printed on a receipt (not displayed on the terminal screen) for balance inquiry and ATM transactions (where DE 3 [Processing Code] is value 01 [Withdrawal] or value 30 [Balance Inquiry]). For Peru and Mastercard Installment Payment Service, DE 123 contains a text message to be printed on point-of-sale (POS) sales receipts.",
+      "length": 999,
+      "content_type": "n",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "124": {
+      "label": "Member-Defined Data",
+      "description": "DE 124 (Member-defined Data) is described for general use and Prepaid Voucher, Brazil Maestro only, Bill Payment at the ATM only, and Mastercard Digital Enablement Service use.",
+      "length": 299,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "125": {
+      "label": "New PIN Data",
+      "description": "DE 125 (New PIN Data) consists of a binary block containing a derived encrypted value calculated from the new PIN introduced by the cardholder at the ATM offering the PIN change service.",
+      "length": 8,
+      "content_type": "b",
+      "length_type": "fixed",
+      "redaction_level": "full"
+    },
+    "126": {
+      "label": "Private Data",
+      "description": "DE 126 (Private Data) is reserved for future use.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "127": {
+      "label": "Private Data",
+      "description": "DE 127 (Private Data) may contain any private-use data that the customer may want to include in a message. Any Authorization Platform message originator may use DE 127.",
+      "length": 999,
+      "content_type": "ans",
+      "length_type": "lllvar",
+      "redaction_level": "full"
+    },
+    "128": {
+      "label": "Message Authentication Code",
+      "description": "DE 128 (Message Authentication Code [MAC]) validates the source and the text of the message between the sender and the receiver.",
+      "length": 8,
+      "content_type": "b",
+      "length_type": "fixed",
+      "disabled": true,
+      "redaction_level": "full"
+    }
+  }
+}
