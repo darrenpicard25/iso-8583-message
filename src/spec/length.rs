@@ -1,6 +1,4 @@
-use serde::Deserialize;
-
-#[derive(Deserialize)]
+#[derive(Debug)]
 pub enum Length {
     Fixed(u16),
     LVar(u16),

@@ -1,6 +1,4 @@
-use serde::Deserialize;
-
-#[derive(Deserialize)]
+#[derive(Debug)]
 pub enum ContentType {
     Alpha,
     Numeric,

@@ -1,14 +1,8 @@
-use std::{fs::File, io::BufReader};
-
-use iso_8583_message::spec_builder::IsoSpecBuilder;
-use serde_json;
+use iso_8583_message::IsoSpec;
 
 #[test]
 fn is_able_to_derive_1987_spec() {
-    let file = include_str!("../specs/mastercard-authorization-1987-spec.json");
-    let spec: IsoSpecBuilder = serde_json::from_str(file).unwrap();
+    let spec = IsoSpec::mastercard_auth_1987_spec();
 
-    dbg!(spec);
-
-    assert_eq!(true, true);
+    assert_eq!(spec.version, 1);
 }
