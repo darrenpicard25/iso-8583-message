@@ -8,3 +8,9 @@ pub enum ContentType {
     NumericSpecial,
     AlphaNumericSpecial,
 }
+
+impl ContentType {
+    pub fn is_valid(&self, _value: &str) -> bool {
+        true
+    }
+}

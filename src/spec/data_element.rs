@@ -9,3 +9,9 @@ pub struct DataElement<'a> {
     pub redaction_level: RedactionLevel,
     pub length: Length,
 }
+
+impl<'a> DataElement<'a> {
+    pub fn is_valid(&self, value: &str) -> bool {
+        self.is_enabled && self.length.is_valid(value) && self.content_type.is_valid(value)
+    }
+}

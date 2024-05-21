@@ -9,4 +9,8 @@ impl<'a> IsoSpecMap<'a> {
     pub fn new(map: BTreeMap<&'a str, DataElement<'a>>) -> Self {
         Self(map)
     }
+
+    pub fn get_field_spec(&self, key: &'static str) -> Option<&DataElement<'a>> {
+        self.0.get(key)
+    }
 }
