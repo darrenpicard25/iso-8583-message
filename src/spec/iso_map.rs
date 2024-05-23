@@ -10,7 +10,7 @@ impl<'a> IsoSpecMap<'a> {
         Self(map)
     }
 
-    pub fn get_field_spec(&self, key: &'static str) -> Option<&DataElement<'a>> {
+    pub fn get_field_spec(&self, key: &'a str) -> Option<&DataElement<'a>> {
         self.0.get(key)
     }
 }
